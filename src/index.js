@@ -8,17 +8,20 @@ const config = {
     default: 'arcade',
     arcade: {
       gravity: {
-        y: 200,
+        // y: 200,
       },
     },
   },
   scene: {
     preload: preload,
     create: create,
+    update: update,
   },
 };
 
 const game = new Phaser.Game(config);
+let logo;
+const VELOCITY_FACTOR = 100;
 
 function preload() {
   this.load.setBaseURL('http://labs.phaser.io');
@@ -42,11 +45,29 @@ function create() {
     blendMode: 'ADD',
   });
 
-  const logo = this.physics.add.image(400, 100, 'logo');
+  logo = this.physics.add.image(400, 100, 'logo');
 
-  logo.setVelocity(100, 200);
+  logo.setVelocity(0, 0);
   logo.setBounce(1, 1);
   logo.setCollideWorldBounds(true);
 
   emitter.startFollow(logo);
+}
+
+function update() {
+  const cursors = this.input.keyboard.createCursorKeys();
+
+  if (cursors.left.isDown) {
+    console.log('LEFT');
+    logo.setVelocity(VELOCITY_FACTOR * -1, 0);
+  } else if (cursors.right.isDown) {
+    console.log('RIGHT');
+    logo.setVelocity(VELOCITY_FACTOR * 1, 0);
+  } else if (cursors.up.isDown) {
+    console.log('UP');
+    logo.setVelocity(0, VELOCITY_FACTOR * -1);
+  } else if (cursors.down.isDown) {
+    console.log('DOWN');
+    logo.setVelocity(0, VELOCITY_FACTOR * 1);
+  }
 }

@@ -11,5 +11,7 @@ module.exports = {
   rules: {
     "arrow-parens": [ "error", "as-needed"],
     "max-len": "off",
+    "no-console": "off",
+    "semi": [ "error", "never" ]
   },
 };

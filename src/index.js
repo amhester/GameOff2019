@@ -1,25 +1,5 @@
 import Phaser from 'phaser';
 
-const config = {
-  type: Phaser.AUTO,
-  width: 800,
-  height: 600,
-  physics: {
-    default: 'arcade',
-    arcade: {
-      gravity: {
-        // y: 200,
-      },
-    },
-  },
-  scene: {
-    preload: preload,
-    create: create,
-    update: update,
-  },
-};
-
-const game = new Phaser.Game(config);
 let logo;
 const VELOCITY_FACTOR = 100;
 
@@ -71,3 +51,24 @@ function update() {
     logo.setVelocity(0, VELOCITY_FACTOR * 1);
   }
 }
+
+const config = {
+  type: Phaser.AUTO,
+  width: 800,
+  height: 600,
+  physics: {
+    default: 'arcade',
+    arcade: {
+      gravity: {
+        // y: 200,
+      },
+    },
+  },
+  scene: {
+    preload,
+    create,
+    update,
+  },
+};
+
+const game = new Phaser.Game(config);

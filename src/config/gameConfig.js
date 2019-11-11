@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
-import SampleScene from './scenes/SampleScene';
+import SampleScene from '../scenes/SampleScene';
 
-const config = {
+export default {
   type: Phaser.AUTO,
   width: 800,
   height: 600,
@@ -15,5 +15,3 @@ const config = {
   },
   scene: SampleScene,
 };
-
-const game = new Phaser.Game(config);

@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import AlignGrid from '../helpers/AlignGrid';
 
 export default class SampleScene extends Phaser.Scene {
   #logo = null;
@@ -37,6 +38,13 @@ export default class SampleScene extends Phaser.Scene {
     this.#logo.setCollideWorldBounds(true);
 
     emitter.startFollow(this.#logo);
+
+    this.grid = new AlignGrid({
+      scene: this,
+      cols: 10,
+      rows: 10,
+    });
+    this.grid.show();
   }
 
   update() {

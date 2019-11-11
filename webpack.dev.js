@@ -17,13 +17,13 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env'],
-          plugins: [
-            '@babel/plugin-proposal-class-properties',
-            '@babel/plugin-proposal-private-methods',
-          ],
-        },
+        // options: {
+        //   presets: ['@babel/preset-env'],
+        //   plugins: [
+        //     '@babel/plugin-proposal-class-properties',
+        //     '@babel/plugin-proposal-private-methods',
+        //   ],
+        // },
       },
       {
         test: /\.(scss|css)$/,

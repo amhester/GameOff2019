@@ -1,15 +1,16 @@
 module.exports = {
   root: true,
   parserOptions: {
-    parser: "babel-eslint"
+    parser: 'babel-eslint',
   },
   extends: [
-    "airbnb-base",
+    'airbnb-base',
   ],
   plugins: [
   ],
   rules: {
-    "arrow-parens": [ "error", "as-needed"],
-    "max-len": "off",
+    'arrow-parens': [ 'error', 'as-needed'],
+    'max-len': 'off',
+    'no-param-reassign': 'off',
   },
 };

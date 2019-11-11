@@ -38,4 +38,42 @@ export default class AlignGrid {
     }
     this.graphics.strokePath();
   }
+
+  // Should help devs plan better
+  showNumbers(a = 1) {
+    this.show(a);
+    let n = 0;
+    for (let i = 0; i < this.rows; i += 1) {
+      for (let j = 0; j < this.cols; j += 1) {
+        const numText = this.scene.add.text(0, 0, n, {
+          color: 'red',
+        });
+        numText.setOrigin(0.5, 0.5);
+        this.placeAt(j, i, numText);
+        n += 1;
+      }
+    }
+  }
+
+  placeAt(xx, yy, obj) {
+    // calculate the center of the cell
+    // by adding half of the height and width
+    // to the x and y of the coordinates
+    const x2 = this.cw * xx + this.cw / 2;
+    const y2 = this.ch * yy + this.ch / 2;
+    obj.x = x2;
+    obj.y = y2;
+  }
+
+  // Useful if using showNumbers in development
+  placeAtIndex(index, obj) {
+    const yy = Math.floor(index / this.cols);
+    const xx = index - (yy * this.cols);
+    this.placeAt(xx, yy, obj);
+  }
+
+  scaleToCell(obj) {
+    obj.displayWidth = this.cw;
+    obj.scaleY = obj.scaleX;
+  }
 }

@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-
 let instance = null;
 export default class EventDispatcher extends Phaser.Events.EventEmitter {
   static getInstance() {
@@ -7,5 +6,10 @@ export default class EventDispatcher extends Phaser.Events.EventEmitter {
       instance = new EventDispatcher();
     }
     return instance;
+  }
+
+  handleMessage(data) {
+    this.data = data;
+    console.log(data);
   }
 }

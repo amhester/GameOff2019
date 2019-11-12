@@ -1,19 +1,61 @@
 import Phaser from 'phaser';
 import SampleScene from './scenes/SampleScene';
+import SampleShipScene from './scenes/SampleShipScene';
+import EventBus from './helpers/EventBus';
 
-const config = {
-  type: Phaser.AUTO,
-  width: 800,
-  height: 600,
-  physics: {
-    default: 'arcade',
-    arcade: {
-      gravity: {
-        // y: 200,
+class App {
+  start(config = {}) {
+    const defaultConfig = {
+      type: Phaser.AUTO,
+      width: 800,
+      height: 600,
+      physics: {
+        default: 'arcade',
+        arcade: {
+          gravity: {
+            // y: 200,
+          },
+        },
       },
-    },
-  },
-  scene: SampleScene,
-};
+      // scene: scenes,
+    };
 
-const game = new Phaser.Game(config);
+    this.scenes = config.scene;
+    this.currentScene = config.scene[0].name;
+
+    this.game = new Phaser.Game({
+      ...defaultConfig,
+      ...config,
+    });
+
+    this.eventBus = EventBus.getInstance();
+
+    this.eventBus.on('scene:change', ({ id, data = {} }) => {
+      if (!this.hasScene(id)) {
+        throw new Error(`Invalid scene id "${id}"`);
+      }
+
+      this.game.scene.stop(this.currentScene);
+      this.currentScene = id;
+      this.game.scene.start(id, data);
+    });
+  }
+
+  hasScene(id) {
+    return this.scenes.find(scene => scene.name === id);
+  }
+}
+
+const scenes = [
+  // First scene gets loaded first
+  SampleScene,
+  SampleShipScene,
+];
+
+const app = new App();
+if (window) {
+  window.app = app;
+}
+app.start({
+  scene: scenes,
+});

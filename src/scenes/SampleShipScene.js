@@ -37,6 +37,14 @@ export default class SampleShipScene extends Phaser.Scene {
     this.backgroundImages.sampleShip = this.add.image(0, 0, 'sampleShip');
     this.grid.scaleToCellRange(this.backgroundImages.sampleShip, 14, 11);
     this.grid.placeOriginAtIndex(17, this.backgroundImages.sampleShip);
+
+    this.input.keyboard.on('keydown', (data) => {
+      console.log('KEYDOWN', data);
+      try {
+        const integer = parseInt(data.key, 10);
+        this.EventBus.emit('hotkey', { char: integer });
+      } catch (err) {}
+    });
   }
 
   update() {

@@ -39,6 +39,18 @@ class App {
       this.currentScene = id;
       this.game.scene.start(id, data);
     });
+
+    this.eventBus.on('hotkey', ({ char }) => {
+      let sceneIndex = char - 1;
+      if (sceneIndex > -1) {
+        if (!this.scenes[sceneIndex]) {
+          throw new Error(`No scene found at index ${sceneIndex}`);
+        }
+        this.eventBus.emit('scene:change', {
+          id: this.scenes[sceneIndex].name
+        });
+      }
+    });
   }
 
   hasScene(id) {

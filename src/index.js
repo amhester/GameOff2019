@@ -1,76 +1,73 @@
-import Phaser from 'phaser'
+import Phaser from 'phaser';
+import SampleScene from './scenes/SampleScene';
+import SampleShipScene from './scenes/SampleShipScene';
+import EventBus from './helpers/EventBus';
 
-const config = {
-  type: Phaser.AUTO,
-  width: 800,
-  height: 600,
-  physics: {
-    default: 'arcade',
-    arcade: {
-      gravity: {
-        // y: 200,
+class App {
+  start(config = {}) {
+    const defaultConfig = {
+      type: Phaser.AUTO,
+      width: 800,
+      height: 600,
+      physics: {
+        default: 'arcade',
+        arcade: {
+          gravity: {
+            // y: 200,
+          },
+        },
       },
-    },
-  },
-  scene: {
-    preload: preload,
-    create: create,
-    update: update,
-  },
-}
+      // scene: scenes,
+    };
 
-const game = new Phaser.Game(config)
-let logo
-const VELOCITY_FACTOR = 100
+    this.scenes = config.scene;
+    this.currentScene = config.scene[0].name;
 
-function preload() {
-  this.load.setBaseURL('http://labs.phaser.io')
+    this.game = new Phaser.Game({
+      ...defaultConfig,
+      ...config,
+    });
 
-  this.load.image('sky', 'assets/skies/space3.png')
-  this.load.image('logo', 'assets/sprites/phaser3-logo.png')
-  this.load.image('red', 'assets/particles/red.png')
-}
+    this.eventBus = EventBus.getInstance();
 
-function create() {
-  this.add.image(400, 300, 'sky')
+    this.eventBus.on('scene:change', ({ id, data = {} }) => {
+      if (!this.hasScene(id)) {
+        throw new Error(`Invalid scene id "${id}"`);
+      }
 
-  const particles = this.add.particles('red')
+      this.game.scene.stop(this.currentScene);
+      this.currentScene = id;
+      this.game.scene.start(id, data);
+    });
 
-  const emitter = particles.createEmitter({
-    speed: 100,
-    scale: {
-      start: 1,
-      end: 0,
-    },
-    blendMode: 'ADD',
-  })
+    this.eventBus.on('hotkey', ({ char }) => {
+      let sceneIndex = char - 1;
+      if (sceneIndex > -1) {
+        if (!this.scenes[sceneIndex]) {
+          throw new Error(`No scene found at index ${sceneIndex}`);
+        }
+        this.eventBus.emit('scene:change', {
+          id: this.scenes[sceneIndex].name
+        });
+      }
+    });
+  }
 
-  logo = this.physics.add.image(400, 100, 'logo')
-
-  logo.setVelocity(0, 0)
-  logo.setBounce(1, 1)
-  logo.setCollideWorldBounds(true)
-
-  emitter.startFollow(logo)
-}
-
-function update() {
-  const cursors = this.input.keyboard.createCursorKeys()
-
-  if (cursors.left.isDown) {
-    console.log('LEFT')
-    logo.setVelocity(VELOCITY_FACTOR * -1, 0)
-  } else if (cursors.right.isDown) {
-    console.log('RIGHT')
-    logo.setVelocity(VELOCITY_FACTOR * 1, 0)
-  } else if (cursors.up.isDown) {
-    console.log('UP')
-    logo.setVelocity(0, VELOCITY_FACTOR * -1)
-  } else if (cursors.down.isDown) {
-    console.log('DOWN')
-    logo.setVelocity(0, VELOCITY_FACTOR * 1)
-  } else if (cursors.space.isDown) {
-    console.log('space')
-    logo.setVelocity(0, 0)
+  hasScene(id) {
+    return this.scenes.find(scene => scene.name === id);
   }
 }
+
+const scenes = [
+  // First scene gets loaded first
+  SampleScene,
+  SampleShipScene,
+];
+
+const app = new App();
+if (window) {
+  window.app = app;
+}
+app.start({
+  scene: scenes,
+});

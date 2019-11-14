@@ -4,15 +4,12 @@ module.exports = function babelConfig({ cache }) {
     cache.using(() => process.env.NODE_ENV === 'development');
   }
 
-  const presets = [];
+  const presets = [
+    '@babel/preset-env',
+  ];
   const plugins = [
-    // ['@babel/preset-env', {
-    //   useBuiltIns: false,
-    //   targets: {
-    //     node: 'current',
-    //   },
-    // }],
-    // 'transform-object-rest-spread',
+    '@babel/plugin-proposal-class-properties',
+    '@babel/plugin-proposal-private-methods',
   ];
 
   return {

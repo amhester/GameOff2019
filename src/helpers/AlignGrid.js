@@ -65,6 +65,19 @@ export default class AlignGrid {
     obj.y = y2;
   }
 
+  placeOriginAt(xx, yy, obj) {
+    const x2 = this.cw * xx + obj.displayWidth / 2;
+    const y2 = this.ch * yy + obj.displayHeight / 2;
+    obj.x = x2;
+    obj.y = y2;
+  }
+
+  placeOriginAtIndex(index, obj) {
+    const yy = Math.floor(index / this.cols);
+    const xx = index - (yy * this.cols);
+    this.placeOriginAt(xx, yy, obj);
+  }
+
   // Useful if using showNumbers in development
   placeAtIndex(index, obj) {
     const yy = Math.floor(index / this.cols);
@@ -75,5 +88,10 @@ export default class AlignGrid {
   scaleToCell(obj) {
     obj.displayWidth = this.cw;
     obj.scaleY = obj.scaleX;
+  }
+
+  scaleToCellRange(obj, width, height) {
+    obj.displayWidth = this.cw * width;
+    obj.displayHeight = this.ch * height;
   }
 }

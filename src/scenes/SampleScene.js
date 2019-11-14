@@ -55,6 +55,14 @@ export default class SampleScene extends Phaser.Scene {
       console.log('DOWN');
       this.jeff.setVelocity(0, this.#VELOCITY_FACTOR * 1);
     });
+
+    this.input.keyboard.on('keydown', (data) => {
+      console.log('KEYDOWN', data);
+      try {
+        const integer = parseInt(data.key, 10);
+        this.EventBus.emit('hotkey', { char: integer });
+      } catch (err) {}
+    });
   }
 
   update() {

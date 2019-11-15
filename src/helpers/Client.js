@@ -3,17 +3,17 @@ import EventBus from './EventBus';
 
 export default class Client {
   constructor(hostId) {
-    this.eventBust = EventBus.getInstance();
+    this.eventBus = EventBus.getInstance();
     this.peer = new Peer();
     this.isConnected = false;
 
     this.connection = this.peer.connect(hostId);
-    this.connection.on('data', data => this.eventBust.handleMessage(data));
+    this.connection.on('data', data => this.eventBus.handleMessage(data));
   }
 
   handleMessage(peerMessage) {
     if (peerMessage.event) {
-      this.eventBust.emit(peerMessage.event, peerMessage);
+      this.eventBus.emit(peerMessage.event, peerMessage);
     }
   }
 

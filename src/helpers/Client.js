@@ -11,6 +11,12 @@ export default class Client {
     this.connection.on('data', data => this.eventBust.handleMessage(data));
   }
 
+  handleMessage(peerMessage) {
+    if (peerMessage.event) {
+      this.eventBust.emit(peerMessage.event, peerMessage);
+    }
+  }
+
   sendMessage(jsonObject) {
     this.connection.send(jsonObject);
   }

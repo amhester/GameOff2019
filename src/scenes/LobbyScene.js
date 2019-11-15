@@ -3,9 +3,7 @@ import AlignGrid from '../helpers/AlignGrid';
 import EventBus from '../helpers/EventBus';
 import Client from '../helpers/Client';
 import Host from '../helpers/Host';
-
 import buttonsJson from '../assets/sprites/buttons.json';
-import b from '../assets/sprites/buttons.png';
 
 const PLACE_HOLDER_TEXT = 'Enter Host Id';
 
@@ -53,6 +51,7 @@ export default class LobbyScene extends Phaser.Scene {
     }
   }
 
+  // Hacky-ish way to get buttons working. Probably will want to refactor eventually
   generateButton(initialX, y, size, buttonText, textOffset) {
     const containerWidth = size * 3 + 5;
     const containerLeft = initialX + (containerWidth / 2) - 10;
@@ -88,9 +87,5 @@ export default class LobbyScene extends Phaser.Scene {
         this.add.text(100, 260, id).setZ(10);
       });
     }
-  }
-
-  update() {
-    const cursors = this.input.keyboard.createCursorKeys();
   }
 }

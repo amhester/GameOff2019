@@ -1,10 +1,23 @@
 import Peer from 'peerjs';
+import EventBus from './EventBus';
 
 let instance = null;
+
+/**
+ * P2P Schema
+ * {
+ *    event: <string>,
+ *    source: <string>,
+ *    metaData: <nested-json-specific-for-command>
+ * }
+ */
+
 export default class Host {
   constructor() {
     this.clientConnections = [];
+    this.EventBus = EventBus.getInstance();
     this.peer = new Peer();
+
     this.peer.on('open', id => {
       this.id = id;
       console.log(id);
@@ -25,9 +38,9 @@ export default class Host {
   }
 
   handlePeerData(messageObj) {
-    this.foo = null;
-    // TODO: do stuff with incoming messages
-    console.log(messageObj);
+    if (messageObj.event) {
+      this.EventBus.emit(messageObj.event, messageObj);
+    }
   }
 
   sendMessage(jsonObject) {

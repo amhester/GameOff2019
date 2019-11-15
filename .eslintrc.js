@@ -1,11 +1,11 @@
 module.exports = {
   root: true,
   env: {
-    'es6': true
+    "es6": true
   },
   parserOptions: {
     ecmaVersion: 2017,
-    parser: 'babel-eslint',
+    parser: 'babel-eslint'
   },
   extends: [
     'airbnb-base',
@@ -14,9 +14,11 @@ module.exports = {
   ],
   rules: {
     'arrow-parens': [ 'error', 'as-needed'],
+    'no-console': 'off',
     'max-len': 'off',
     'no-param-reassign': 'off',
-    'no-console': 'off',
-    'class-methods-use-this': 'off'
+    'import/no-extraneous-dependencies': ['error', {
+      devDependencies: true,
+    }],
   },
 };

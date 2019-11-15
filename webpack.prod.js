@@ -1,6 +1,6 @@
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const cssNano = require('cssnano');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -69,7 +69,7 @@ module.exports = {
       },
       {
         // Load all icons
-        test: /\.(eot|woff|woff2|svg|ttf)([\?]?.*)$/,
+        test: /\.(eot|woff|woff2|svg|ttf)([?]?.*)$/,
         use: [{
           loader: 'file-loader',
         }],
@@ -96,7 +96,7 @@ module.exports = {
       // favicon background color (see https://github.com/haydenbleasel/favicons#usage)
       background: '#fff',
       // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
-      title: '{{projectName}}',
+      title: 'GameOff2019',
 
       // which icons should be generated (see https://github.com/haydenbleasel/favicons#usage)
       icons: {

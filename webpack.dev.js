@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
@@ -14,9 +15,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js)$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
+      },
+      {
+        test: [/\.vert$/, /\.frag$/],
+        use: 'raw-loader',
       },
       {
         test: /\.(scss|css)$/,
@@ -51,17 +56,17 @@ module.exports = {
         // Load all images as base64 encoding if they are smaller than 8192 bytes
         test: /\.(png|jpg|gif)$/,
         use: [{
-          loader: 'url-loader',
+          loader: 'file-loader',
           options: {
             // On development we want to see where the file is coming from, hence we preserve the [path]
-            name: '[path][name].[ext]?hash=[hash:20]',
+            name: '[path][name].[ext]',
             limit: 8192,
           },
         }],
       },
       {
         // Load all icons
-        test: /\.(eot|woff|woff2|svg|ttf)([\?]?.*)$/,
+        test: /\.(eot|woff|woff2|svg|ttf)([?]?.*)$/,
         use: [{
           loader: 'file-loader',
         }],
@@ -69,6 +74,10 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'CANVAS_RENDERER': JSON.stringify(true),
+      'WEBGL_RENDERER': JSON.stringify(true),
+    }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
       inject: true,

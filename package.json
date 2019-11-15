@@ -45,6 +45,7 @@
   },
   "scripts": {
     "build": "webpack --config webpack.prod.js --mode production",
+    "lint": "eslint .",
     "preview": "npm run build && http-server dist",
     "start": "webpack-dev-server --config webpack.dev.js --mode development"
   },

@@ -22,6 +22,14 @@ export default class MenuScene extends Phaser.Scene {
     this.grid.showNumbers(); // Comment out to make lines disappear
 
     this.text = this.add.bitmapText(0, 0, 'supermercado', 'MY GAME!', 64);
+    
+    this.input.keyboard.on('keydown', (data) => {
+      console.log('KEYDOWN', data);
+      try {
+        const integer = parseInt(data.key, 10);
+        this.EventBus.emit('hotkey', { char: integer });
+      } catch (err) {}
+    });
   }
 
   update() {

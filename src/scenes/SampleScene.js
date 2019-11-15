@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import AlignGrid from '../helpers/AlignGrid';
 import EventBus from '../helpers/EventBus';
+import Client from '../helpers/Client';
 
 import jeff from '../assets/jeff.png';
 
@@ -11,6 +12,7 @@ export default class SampleScene extends Phaser.Scene {
     this.logo = null;
     this.VELOCITY_FACTOR = 100;
     this.EventBus = EventBus.getInstance();
+    this.Host = null;
   }
 
   preload() {

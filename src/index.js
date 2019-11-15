@@ -1,7 +1,13 @@
 import Phaser from 'phaser';
+import LobbyScene from './scenes/LobbyScene';
 import SampleScene from './scenes/SampleScene';
 import SampleShipScene from './scenes/SampleShipScene';
-import EventBus from './helpers/EventBus';
+import  EventBus from './helpers/EventBus';
+import {EVENTS} from './helpers/enums';
+
+// Hacky way to load all pngs for phaser to use.
+function requireAll(r) { r.keys().forEach(r); }
+requireAll(require.context('./assets', true, /\.png$/));
 
 class App {
   start(config = {}) {
@@ -30,7 +36,7 @@ class App {
 
     this.eventBus = EventBus.getInstance();
 
-    this.eventBus.on('scene:change', ({ id, data = {} }) => {
+    this.eventBus.on(EVENTS.SCENE_CHANGE, ({ id, data = {} }) => {
       if (!this.hasScene(id)) {
         throw new Error(`Invalid scene id "${id}"`);
       }
@@ -40,8 +46,8 @@ class App {
       this.game.scene.start(id, data);
     });
 
-    this.eventBus.on('hotkey', ({ char }) => {
-      const sceneIndex = char - 1;
+    this.eventBus.on(EVENTS.HOTKEY, ({ char }) => {
+      let sceneIndex = char - 1;
       if (sceneIndex > -1) {
         if (!this.scenes[sceneIndex]) {
           throw new Error(`No scene found at index ${sceneIndex}`);
@@ -60,6 +66,7 @@ class App {
 
 const scenes = [
   // First scene gets loaded first
+  LobbyScene,
   SampleScene,
   SampleShipScene,
 ];

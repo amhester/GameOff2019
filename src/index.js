@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
-import SampleScene from './scenes/SampleScene';
-import SampleShipScene from './scenes/SampleShipScene';
+// import SampleScene from './scenes/SampleScene';
+// import SampleShipScene from './scenes/SampleShipScene';
+import GameScene from './scenes/GameScene';
 import EventBus from './helpers/EventBus';
 
 class App {
@@ -9,11 +10,12 @@ class App {
       type: Phaser.AUTO,
       width: 800,
       height: 600,
+      pixelArt: true,
       physics: {
         default: 'arcade',
         arcade: {
           gravity: {
-            // y: 200,
+            y: 0,
           },
         },
       },
@@ -41,13 +43,13 @@ class App {
     });
 
     this.eventBus.on('hotkey', ({ char }) => {
-      let sceneIndex = char - 1;
+      const sceneIndex = char - 1;
       if (sceneIndex > -1) {
         if (!this.scenes[sceneIndex]) {
           throw new Error(`No scene found at index ${sceneIndex}`);
         }
         this.eventBus.emit('scene:change', {
-          id: this.scenes[sceneIndex].name
+          id: this.scenes[sceneIndex].name,
         });
       }
     });
@@ -60,8 +62,9 @@ class App {
 
 const scenes = [
   // First scene gets loaded first
-  SampleScene,
-  SampleShipScene,
+  // SampleScene,
+  // SampleShipScene,
+  GameScene,
 ];
 
 const app = new App();

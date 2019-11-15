@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import LobbyScene from './scenes/LobbyScene';
 import SampleScene from './scenes/SampleScene';
 import SampleShipScene from './scenes/SampleShipScene';
 import EventBus from './helpers/EventBus';
@@ -48,6 +49,7 @@ class App {
 
 const scenes = [
   // First scene gets loaded first
+  LobbyScene,
   SampleScene,
   SampleShipScene,
 ];

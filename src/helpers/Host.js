@@ -5,12 +5,15 @@ export default class Host {
   constructor() {
     this.clientConnections = [];
     this.peer = new Peer();
-
-    this.peer.on('connection', conn => {
-      this.clientConnections.push(conn);
-      // Setting up listener for incoming
-      // TODO: Maybe move this to a webworker
-      conn.on('data', data => this.handlePeerData(data));
+    this.peer.on('open', id => {
+      this.id = id;
+      console.log(id);
+      this.peer.on('connection', conn => {
+        this.clientConnections.push(conn);
+        // Setting up listener for incoming
+        // TODO: Maybe move this to a webworker
+        conn.on('data', data => this.handlePeerData(data));
+      });
     });
   }
 

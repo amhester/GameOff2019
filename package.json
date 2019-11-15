@@ -4,6 +4,7 @@
   "description": "Repo for Github's GameOff 2019 game jam",
   "main": "src/index.js",
   "dependencies": {
+    "html-loader": "^0.5.5",
     "normalize.css": "^8.0.0",
     "peerjs": "^1.1.0",
     "phaser": "^3.20.1",

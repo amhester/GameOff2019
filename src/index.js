@@ -53,7 +53,7 @@ class App {
           throw new Error(`No scene found at index ${sceneIndex}`);
         }
         this.eventBus.emit('scene:change', {
-          id: this.scenes[sceneIndex].name
+          id: this.scenes[sceneIndex].name,
         });
       }
     });

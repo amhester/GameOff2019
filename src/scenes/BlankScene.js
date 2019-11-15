@@ -9,9 +9,9 @@ export default class BlankScene extends Phaser.Scene {
     this.EventBus = EventBus.getInstance();
   }
 
-  preload() {
+  // preload() {
 
-  }
+  // }
 
   create() {
     this.grid = new AlignGrid({

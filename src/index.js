@@ -41,13 +41,13 @@ class App {
     });
 
     this.eventBus.on('hotkey', ({ char }) => {
-      let sceneIndex = char - 1;
+      const sceneIndex = char - 1;
       if (sceneIndex > -1) {
         if (!this.scenes[sceneIndex]) {
           throw new Error(`No scene found at index ${sceneIndex}`);
         }
         this.eventBus.emit('scene:change', {
-          id: this.scenes[sceneIndex].name
+          id: this.scenes[sceneIndex].name,
         });
       }
     });

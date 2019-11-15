@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-import SampleScene from '../scenes/SampleScene';
 
 export default {
   type: Phaser.AUTO,
@@ -13,5 +12,4 @@ export default {
       },
     },
   },
-  scene: SampleScene,
 };

@@ -12,5 +12,8 @@ module.exports = {
     'arrow-parens': [ 'error', 'as-needed'],
     'max-len': 'off',
     'no-param-reassign': 'off',
+    'import/no-extraneous-dependencies': ['error', {
+      devDependencies: true,
+    }],
   },
 };

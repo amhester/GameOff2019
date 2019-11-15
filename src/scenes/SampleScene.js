@@ -5,12 +5,11 @@ import EventBus from '../helpers/EventBus';
 import jeff from '../assets/jeff.png';
 
 export default class SampleScene extends Phaser.Scene {
-  #logo = null;
-  #VELOCITY_FACTOR = 100;
-
   constructor() {
     super('SampleScene');
 
+    this.logo = null;
+    this.VELOCITY_FACTOR = 100;
     this.EventBus = EventBus.getInstance();
   }
 
@@ -38,22 +37,22 @@ export default class SampleScene extends Phaser.Scene {
 
     this.EventBus.on('ARROW_LEFT', () => {
       console.log('LEFT');
-      this.jeff.setVelocity(this.#VELOCITY_FACTOR * -1, 0);
+      this.jeff.setVelocity(this.VELOCITY_FACTOR * -1, 0);
     });
 
     this.EventBus.on('ARROW_RIGHT', () => {
       console.log('RIGHT');
-      this.jeff.setVelocity(this.#VELOCITY_FACTOR * 1, 0);
+      this.jeff.setVelocity(this.VELOCITY_FACTOR * 1, 0);
     });
 
     this.EventBus.on('ARROW_UP', () => {
       console.log('UP');
-      this.jeff.setVelocity(0, this.#VELOCITY_FACTOR * -1);
+      this.jeff.setVelocity(0, this.VELOCITY_FACTOR * -1);
     });
 
     this.EventBus.on('ARROW_DOWN', () => {
       console.log('DOWN');
-      this.jeff.setVelocity(0, this.#VELOCITY_FACTOR * 1);
+      this.jeff.setVelocity(0, this.VELOCITY_FACTOR * 1);
     });
 
     this.input.keyboard.on('keydown', (data) => {

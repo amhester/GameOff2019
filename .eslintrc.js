@@ -4,7 +4,7 @@ module.exports = {
     "es6": true
   },
   parserOptions: {
-    ecmaVersion: 2017,
+    ecmaVersion: 2018,
     parser: 'babel-eslint'
   },
   extends: [
@@ -17,6 +17,10 @@ module.exports = {
     'no-console': 'off',
     'max-len': 'off',
     'no-param-reassign': 'off',
+    'import/prefer-default-export': 'off',
+    'import/no-named-as-default': 'off',
+    'import/no-named-as-default-member': 'off',
+    'no-bitwise': 'off',
     'import/no-extraneous-dependencies': ['error', {
       devDependencies: true,
     }],

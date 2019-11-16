@@ -68,6 +68,11 @@ module.exports = {
         }],
       },
       {
+        test: /\.mp3$/,
+        // include: ,
+        loader: 'file-loader',
+      },
+      {
         // Load all icons
         test: /\.(eot|woff|woff2|svg|ttf)([?]?.*)$/,
         use: [{

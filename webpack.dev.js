@@ -71,6 +71,11 @@ module.exports = {
           loader: 'file-loader',
         }],
       },
+      {
+        test: /\.mp3$/,
+        // include: ,
+        loader: 'file-loader',
+      },
     ],
   },
   plugins: [

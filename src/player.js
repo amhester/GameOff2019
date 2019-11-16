@@ -1,4 +1,4 @@
-import CREATURES from './helpers/CreatureSprites'
+import CREATURES from './helpers/CreatureSprites';
 import EventBus from './helpers/EventBus';
 import { EVENTS } from './helpers/enums';
 
@@ -17,7 +17,7 @@ const defaultConfig = {
 
 class Player {
   constructor(config = {}) {
-    this.config = { ...defaultConfig, ...config }
+    this.config = { ...defaultConfig, ...config };
 
     this.EventBus = EventBus.getInstance();
 
@@ -126,7 +126,7 @@ class Player {
       username,
       role,
       listenForInput: controllable,
-    }
+    };
     return new Player(config);
   }
 }

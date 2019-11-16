@@ -6,6 +6,7 @@ import Map from '../map';
 
 import mapTilesImage from '../assets/tilesets/world_tiles.png';
 import creatureSpritesheet from '../assets/tilesets/creature_sprites.png';
+import gameMusic from '../assets/sounds/music/game_track.mp3';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -20,6 +21,7 @@ export default class GameScene extends Phaser.Scene {
       frameWidth: 24,
       frameHeight: 24,
     });
+    this.load.audio('game_bg', gameMusic);
     // TODO: Add some basic interactive objects
   }
 
@@ -38,6 +40,9 @@ export default class GameScene extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, this.map.width, this.map.height);
     this.cameras.main.startFollow(this.player.sprite);
     this.cameras.main.setRoundPixels(true); // Prevents some weird rendering effects
+
+    // Start music
+    this.sound.play('game_bg', { loop: -1 });
 
     // Subscribe to relevant events
     this.initListeners();

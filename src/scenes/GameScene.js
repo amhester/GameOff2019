@@ -1,13 +1,12 @@
 import Phaser from 'phaser';
-import AlignGrid from '../helpers/AlignGrid';
 import EventBus from '../helpers/EventBus';
+import { ROLES } from '../helpers/enums';
 import TILES from '../helpers/WorldTiles';
 import MAPS from '../config/maps.json';
+import Player from '../player';
 
-import jeff from '../assets/jeff.png';
 import mapTilesImage from '../assets/tilesets/world_tiles.png';
-
-const VELOCITY_FACTOR = 100;
+import creatureSpritesheet from '../assets/tilesets/creature_sprites.png';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -19,8 +18,11 @@ export default class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('jeff', jeff);
     this.load.image('tiles', mapTilesImage);
+    this.load.spritesheet('creatures', creatureSpritesheet, {
+      frameWidth: 24,
+      frameHeight: 24,
+    });
     // TODO: Add tilemap for map tiles
     // TODO: Add real player sprites
     // TODO: Add some basic interactive objects
@@ -49,62 +51,28 @@ export default class GameScene extends Phaser.Scene {
     this.physics.world.bounds.height = worldHeight;
 
     // Create player and set characteristics
-    this.player = this.physics.add.image(
+    this.player = Player.newPlayer(this, 'Player1', ROLES.NORMAL, true);
+    this.player.setPosition(
       this.map.tileToWorldX(this.mapConfig.playerStartX),
       this.map.tileToWorldY(this.mapConfig.playerStartY),
-      'jeff',
     );
-    this.player.setScale(.07, .07);
-    this.player.setCollideWorldBounds(true);
-    this.physics.add.collider(this.player, this.groundLayer);
+    this.physics.add.collider(this.player.sprite, this.groundLayer);
 
     // Set camera movement on player
     this.cameras.main.setZoom(2.5);
     this.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
-    this.cameras.main.startFollow(this.player);
+    this.cameras.main.startFollow(this.player.sprite);
     this.cameras.main.setRoundPixels(true); // Prevents some weird rendering effects
 
     // Subscribe to relevant events
-    this.cursors = this.input.keyboard.createCursorKeys();
     this.initListeners();
   }
 
   update() {
-    // Reset velocity so we don't have to manually listen for key up events
-    this.player.setVelocity(0);
-
-    // Horizontal movement
-    if (this.cursors.left.isDown) {
-      this.EventBus.emit('ARROW_LEFT');
-    } else if (this.cursors.right.isDown) {
-      this.EventBus.emit('ARROW_RIGHT');
-    }
-
-    // Vertical movement
-    if (this.cursors.up.isDown) {
-      this.EventBus.emit('ARROW_UP');
-    } else if (this.cursors.down.isDown) {
-      this.EventBus.emit('ARROW_DOWN');
-    }
+    this.player.update();
   }
 
   initListeners() {
-    this.EventBus.on('ARROW_LEFT', () => {
-      this.player.setVelocity(VELOCITY_FACTOR * -1, 0);
-    });
-
-    this.EventBus.on('ARROW_RIGHT', () => {
-      this.player.setVelocity(VELOCITY_FACTOR * 1, 0);
-    });
-
-    this.EventBus.on('ARROW_UP', () => {
-      this.player.setVelocity(0, VELOCITY_FACTOR * -1);
-    });
-
-    this.EventBus.on('ARROW_DOWN', () => {
-      this.player.setVelocity(0, VELOCITY_FACTOR * 1);
-    });
-
     this.input.keyboard.on('keydown', data => {
       try {
         const integer = parseInt(data.key, 10);

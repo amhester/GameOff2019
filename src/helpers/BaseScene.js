@@ -5,8 +5,8 @@ import EventBus from './EventBus';
 export default class BaseScene extends Phaser.Scene {
   EventBus = EventBus.getInstance();
 
-  constructor(sceneName) {
-    super(sceneName);
+  constructor(...sceneParams) {
+    super(...sceneParams);
   }
 
   create() {

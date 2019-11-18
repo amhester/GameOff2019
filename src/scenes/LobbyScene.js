@@ -3,6 +3,7 @@ import AlignGrid from '../helpers/AlignGrid';
 import Client from '../helpers/Client';
 import Host from '../helpers/Host';
 import buttonsJson from '../assets/sprites/buttons.json';
+import UIButton from '../ui/Button';
 
 const PLACE_HOLDER_TEXT = 'Enter Host Id';
 
@@ -12,7 +13,7 @@ export default class LobbyScene extends BaseScene {
   }
 
   preload() {
-    this.load.multiatlas('buttons', buttonsJson, 'src/assets/sprites');
+    // this.load.multiatlas('buttons', buttonsJson, 'src/assets/sprites');
   }
 
   create() {
@@ -22,15 +23,57 @@ export default class LobbyScene extends BaseScene {
       rows: 10,
     });
     // this.grid.showNumbers(); // Comment out to make lines disappear
-    this.generateButton(100, 200, 50, 'Host Game', 30).textVal.on('pointerdown', () => this.startHost());
-
-    const input = this.generateButton(350, 260, 50, PLACE_HOLDER_TEXT, 2);
-    input.textVal.on('pointerdown', () => {
-      this.updateLobbyText(input.rect, input.textVal);
+    const startButton = new UIButton({
+      id: 'startButton',
+      x: 100,
+      y: 200,
+      size: 50,
+      text: 'Host Game',
+      textOffset: 30,
+      scene: this,
     });
+    this.EventBus.on('UIButton:click', ({ id }) => {
+      if (id === startButton.id) {
+        this.startHost();
+      }
+    });
+    // this.generateButton(100, 200, 50, 'Host Game', 30).textVal.on('pointerdown', () => this.startHost());
 
-    const joinGameObject = this.generateButton(350, 200, 50, 'Join Game', 30);
-    joinGameObject.textVal.on('pointerdown', () => this.joinGame(input.textVal.text));
+    const input = new UIButton({
+      id: 'input',
+      x: 350,
+      y: 200,
+      size: 50,
+      text: PLACE_HOLDER_TEXT,
+      textOffset: 2,
+      scene: this,
+    });
+    this.EventBus.on('UIButton:click', ({ id }) => {
+      if (id === input.id) {
+        this.updateLobbyText(input.rect, input.textVal);
+      }
+    });
+    // const input = this.generateButton(350, 260, 50, PLACE_HOLDER_TEXT, 2);
+    // input.textVal.on('pointerdown', () => {
+    //   this.updateLobbyText(input.rect, input.textVal);
+    // });
+
+    const joinGame = new UIButton({
+      id: 'input',
+      x: 350,
+      y: 200,
+      size: 50,
+      text: 'Join Game',
+      textOffset: 30,
+      scene: this,
+    });
+    this.EventBus.on('UIButton:click', ({ id }) => {
+      if (id === joinGame.id) {
+        this.joinGame(input.textVal.text);
+      }
+    });
+    // const joinGameObject = this.generateButton(350, 200, 50, 'Join Game', 30);
+    // joinGameObject.textVal.on('pointerdown', () => this.joinGame(input.textVal.text));
   }
 
   updateLobbyText(rect, textVal) {
@@ -49,25 +92,25 @@ export default class LobbyScene extends BaseScene {
     }
   }
 
-  // Hacky-ish way to get buttons working. Probably will want to refactor eventually
-  generateButton(initialX, y, size, buttonText, textOffset) {
-    const containerWidth = size * 3 + 5;
-    const containerLeft = initialX + (containerWidth / 2) - 10;
-    const rect = this.add.rectangle(containerLeft, y, containerWidth, size).setInteractive();
+  // // Hacky-ish way to get buttons working. Probably will want to refactor eventually
+  // generateButton(initialX, y, size, buttonText, textOffset) {
+  //   const containerWidth = size * 3 + 5;
+  //   const containerLeft = initialX + (containerWidth / 2) - 10;
+  //   const rect = this.add.rectangle(containerLeft, y, containerWidth, size).setInteractive();
 
-    const btnOne = this.add.sprite(initialX, y, 'buttons', 'gui_0001.png');
-    const btnTwo = this.add.sprite(initialX + size, y, 'buttons', 'gui_0002.png');
-    const btnThree = this.add.sprite(initialX + (2 * size), y, 'buttons', 'gui_0003.png');
-    const btnFour = this.add.sprite(initialX + (3 * size), y, 'buttons', 'gui_0004.png');
+  //   const btnOne = this.add.sprite(initialX, y, 'buttons', 'gui_0001.png');
+  //   const btnTwo = this.add.sprite(initialX + size, y, 'buttons', 'gui_0002.png');
+  //   const btnThree = this.add.sprite(initialX + (2 * size), y, 'buttons', 'gui_0003.png');
+  //   const btnFour = this.add.sprite(initialX + (3 * size), y, 'buttons', 'gui_0004.png');
 
-    btnOne.setDisplaySize(size, size);
-    btnTwo.setDisplaySize(size, size);
-    btnThree.setDisplaySize(size, size);
-    btnFour.setDisplaySize(size, size);
+  //   btnOne.setDisplaySize(size, size);
+  //   btnTwo.setDisplaySize(size, size);
+  //   btnThree.setDisplaySize(size, size);
+  //   btnFour.setDisplaySize(size, size);
 
-    const textVal = this.add.text(initialX + textOffset, y - 5, buttonText).setInteractive();
-    return { rect, textVal };
-  }
+  //   const textVal = this.add.text(initialX + textOffset, y - 5, buttonText).setInteractive();
+  //   return { rect, textVal };
+  // }
 
   joinGame(hostId) {
     if (!this.client) {

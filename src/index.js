@@ -67,9 +67,9 @@ class App {
 
 const scenes = [
   // First scene gets loaded first
+  LobbyScene,
   GameScene,
   SampleScene,
-  LobbyScene,
 ];
 
 const app = new App();

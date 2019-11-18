@@ -1,4 +1,4 @@
-import Phaser from 'phaser';
+import BaseScene from '../helpers/BaseScene';
 import EventBus from '../helpers/EventBus';
 import { ROLES } from '../helpers/enums';
 import Player from '../player';
@@ -8,11 +8,9 @@ import mapTilesImage from '../assets/tilesets/world_tiles.png';
 import creatureSpritesheet from '../assets/tilesets/creature_sprites.png';
 import gameMusic from '../assets/sounds/music/game_track.mp3';
 
-export default class GameScene extends Phaser.Scene {
+export default class GameScene extends BaseScene {
   constructor() {
     super('GameScene');
-
-    this.EventBus = EventBus.getInstance();
   }
 
   preload() {
@@ -43,23 +41,9 @@ export default class GameScene extends Phaser.Scene {
 
     // Start music
     this.sound.play('game_bg', { loop: -1 });
-
-    // Subscribe to relevant events
-    this.initListeners();
   }
 
   update() {
     this.player.update();
-  }
-
-  initListeners() {
-    this.input.keyboard.on('keydown', data => {
-      try {
-        const integer = parseInt(data.key, 10);
-        this.EventBus.emit('hotkey', { char: integer });
-      } catch (err) {
-        console.error(err);
-      }
-    });
   }
 }

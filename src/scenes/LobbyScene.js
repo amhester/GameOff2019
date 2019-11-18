@@ -1,16 +1,14 @@
-import Phaser from 'phaser';
+import BaseScene from '../helpers/BaseScene';
 import AlignGrid from '../helpers/AlignGrid';
-import EventBus from '../helpers/EventBus';
 import Client from '../helpers/Client';
 import Host from '../helpers/Host';
 import buttonsJson from '../assets/sprites/buttons.json';
 
 const PLACE_HOLDER_TEXT = 'Enter Host Id';
 
-export default class LobbyScene extends Phaser.Scene {
+export default class LobbyScene extends BaseScene {
   constructor() {
     super('LobbyScene');
-    this.EventBus = EventBus.getInstance();
   }
 
   preload() {

@@ -1,12 +1,10 @@
-import Phaser from 'phaser';
+import BaseScene from '../helpers/BaseScene';
 import AlignGrid from '../helpers/AlignGrid';
 import EventBus from '../helpers/EventBus';
 
-export default class MenuScene extends Phaser.Scene {
+export default class MenuScene extends BaseScene {
   constructor() {
     super('MenuScene');
-
-    this.EventBus = EventBus.getInstance();
   }
 
   preload() {

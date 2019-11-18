@@ -1,9 +1,8 @@
 import Phaser from 'phaser';
 import LobbyScene from './scenes/LobbyScene';
 import SampleScene from './scenes/SampleScene';
-import SampleShipScene from './scenes/SampleShipScene';
 import GameScene from './scenes/GameScene';
-import  EventBus from './helpers/EventBus';
+import EventBus from './helpers/EventBus';
 import {EVENTS} from './helpers/enums';
 
 // Hacky way to load all pngs for phaser to use.
@@ -68,9 +67,9 @@ class App {
 
 const scenes = [
   // First scene gets loaded first
-  // SampleScene,
-  // SampleShipScene,
   GameScene,
+  SampleScene,
+  LobbyScene,
 ];
 
 const app = new App();

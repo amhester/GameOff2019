@@ -11,6 +11,35 @@ export default class LobbyScene extends BaseScene {
   constructor() {
     super('LobbyScene');
   }
+  startButton = new UIButton({
+    id: 'startButton',
+    x: 100,
+    y: 200,
+    size: 50,
+    text: 'Host Game',
+    textOffset: 30,
+    scene: this,
+  });
+
+  inputButton = new UIButton({
+    id: 'input',
+    x: 350,
+    y: 200,
+    size: 50,
+    text: PLACE_HOLDER_TEXT,
+    textOffset: 2,
+    scene: this,
+  });
+
+  joinGameButton = new UIButton({
+    id: 'input',
+    x: 350,
+    y: 200,
+    size: 50,
+    text: 'Join Game',
+    textOffset: 30,
+    scene: this,
+  });
 
   preload() {
     // this.load.multiatlas('buttons', buttonsJson, 'src/assets/sprites');
@@ -23,34 +52,19 @@ export default class LobbyScene extends BaseScene {
       rows: 10,
     });
     // this.grid.showNumbers(); // Comment out to make lines disappear
-    const startButton = new UIButton({
-      id: 'startButton',
-      x: 100,
-      y: 200,
-      size: 50,
-      text: 'Host Game',
-      textOffset: 30,
-      scene: this,
-    });
+    
+    this.startButton.create();
     this.EventBus.on('UIButton:click', ({ id }) => {
-      if (id === startButton.id) {
+      if (id === this.startButton.id) {
         this.startHost();
       }
     });
     // this.generateButton(100, 200, 50, 'Host Game', 30).textVal.on('pointerdown', () => this.startHost());
 
-    const input = new UIButton({
-      id: 'input',
-      x: 350,
-      y: 200,
-      size: 50,
-      text: PLACE_HOLDER_TEXT,
-      textOffset: 2,
-      scene: this,
-    });
+    this.inputButton.create();
     this.EventBus.on('UIButton:click', ({ id }) => {
-      if (id === input.id) {
-        this.updateLobbyText(input.rect, input.textVal);
+      if (id === this.inputButton.id) {
+        this.updateLobbyText(this.inputButton.rect, this.inputButton.textVal);
       }
     });
     // const input = this.generateButton(350, 260, 50, PLACE_HOLDER_TEXT, 2);
@@ -58,18 +72,10 @@ export default class LobbyScene extends BaseScene {
     //   this.updateLobbyText(input.rect, input.textVal);
     // });
 
-    const joinGame = new UIButton({
-      id: 'input',
-      x: 350,
-      y: 200,
-      size: 50,
-      text: 'Join Game',
-      textOffset: 30,
-      scene: this,
-    });
+    this.joinGameButton.create();
     this.EventBus.on('UIButton:click', ({ id }) => {
-      if (id === joinGame.id) {
-        this.joinGame(input.textVal.text);
+      if (id === this.joinGameButton.id) {
+        this.joinGame(this.inputButton.textVal.text);
       }
     });
     // const joinGameObject = this.generateButton(350, 200, 50, 'Join Game', 30);

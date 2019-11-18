@@ -20,10 +20,21 @@ export default class UIButton {
     this.text = text;
     this.textOffset = textOffset;
     this.scene = scene;
+  }
 
+  create() {
+    const {
+      id,
+      x,
+      y,
+      size,
+      text,
+      textOffset,
+      scene,
+    } = this;
     const containerWidth = size * 3 + 5;
     const containerLeft = x + (containerWidth / 2) - 10;
-    const rect = scene.add.rectangle(containerLeft, y, containerWidth, size).setInteractive();
+    this.rect = scene.add.rectangle(containerLeft, y, containerWidth, size).setInteractive();
 
     const btnOne = scene.add.sprite(x, y, 'buttons', 'gui_0001.png');
     const btnTwo = scene.add.sprite(x + size, y, 'buttons', 'gui_0002.png');
@@ -35,14 +46,10 @@ export default class UIButton {
     btnThree.setDisplaySize(size, size);
     btnFour.setDisplaySize(size, size);
 
-    const textVal = scene.add.text(initialX + textOffset, y - 5, buttonText).setInteractive();
+    this.textVal = scene.add.text(x + textOffset, y - 5, text).setInteractive();
 
-    // const button = {
-    //   rect,
-    //   textVal
-    // };
     // button.textVal
-    textVal.on('pointerdown', () => {
+    this.textVal.on('pointerdown', () => {
       // Could make UIButton a subclass of Phaser.Events.EventEmitter if desired
       this.EventBus.emit('UIButton:click', { id });
     });
